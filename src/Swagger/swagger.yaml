@@ -1,0 +1,292 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Swagger tiendita"
+host: "localhost:3000"
+basePath: "/ventas"
+schemes:
+  - "http"
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user:
+    post:
+      tags:
+        - "User"
+      summary: "Servicio para registrar a un usuario de tiendita"
+      description: "El servicio deberá conectar con la tablas users, para registrar un usuario de tiendita"
+      operationId: "createUser"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+  /user/{userId}:
+    get:
+      tags:
+        - "User"
+      summary: "Servicio para obtener los detalles de un usuario por medio de su userId"
+      description: "El servicio deberá conectar con las tablas users, para obtener los detalles de un usuario en especifico."
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "Identificador de un usuario"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: "#/definitions/detailUser"
+        "404":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+    put:
+      tags:
+        - "User"
+      summary: "Servicio para actualizar a un usuario registrado en el sistema"
+      description: "El servicio deberá conectar con la tabla de users, para actualizar al usuario por medio de su userId pasado en el path del servicio"
+      operationId: "updateUser"
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "Id del registro a actualizar"
+          required: true
+          type: "number"
+        - in: "body"
+          name: "body"
+          description: "Updated user object"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Ok
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+        - "User"
+      summary: "Servicio para eliminar a un usuario registrado en el sistema"
+      description: "El servicio deberá conectar con la tabla de users, para borrar al usuario por medio de su userId pasado en el path del servicio"
+      operationId: "deleteUser"
+      parameters:
+        - in: "path"
+          name: "userId"
+          description: "Identificador de un usuario"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: Ok
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/notFound"
+  /product:
+    post:
+      tags:
+        - "Product"
+      summary: "Servicio para registrar a un producto de tiendita"
+      description: "El servicio deberá conectar con la tablas products, para registrar un producto de tiendita"
+      operationId: "createProduct"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+  /product/{productId}:
+    get:
+      tags:
+        - "Product"
+      summary: "Servicio para obtener los detalles de un usuario por medio de su userId"
+      description: "El servicio deberá conectar con las tablas users, para obtener los detalles de un usuario en especifico."
+      operationId: "getProductDetails"
+      parameters:
+        - in: "path"
+          name: "productId"
+          description: "Identificador de un usuario"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: "#/definitions/detailProduct"
+        "404":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+    put:
+      tags:
+        - "Product"
+      summary: "Servicio para actualizar a un producto registrado en el sistema"
+      description: "El servicio deberá conectar con la tabla de products, para actualizar al producto por medio de su productId pasado en el path del servicio"
+      operationId: "updateProduct"
+      parameters:
+        - name: "productId"
+          in: "path"
+          description: "Id del registro a actualizar"
+          required: true
+          type: "number"
+        - in: "body"
+          name: "body"
+          description: "Updated user object"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        "200":
+          description: Ok
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+        - "Product"
+      summary: "Servicio para eliminar a un producto registrado en el sistema"
+      description: "El servicio deberá conectar con la tabla de products, para borrar al usuario por medio de su productId pasado en el path del servicio"
+      operationId: "deleteProduct"
+      parameters:
+        - name: "productId"
+          in: "path"
+          description: "Identificador de un usuario"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: Ok
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/notFound"
+  /venta:
+    post:
+      tags:
+        - "Ventas"
+      summary: "Servicio para registrar una venta de tiendita"
+      description: "El servicio debera conectar con las tablas users, products, sales, para registrar una venta en tiendita"
+      operationId: "createSale"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Sale"
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Bad request
+          schema:
+            $ref: "#/definitions/notFound"
+definitions:
+  notFound:
+    type: object
+    properties:
+      msg:
+        type: string
+  User:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+      name:
+        type: "string"
+      firstSurname:
+        type: "string"
+      lastSurname:
+        type: "string"
+      rol:
+        type: "string"
+  detailUser:
+    type: object
+    properties:
+      userId:
+        type: "number"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      name:
+        type: "string"
+      firstSurname:
+        type: "string"
+      lastSurname:
+        type: "string"
+      rol:
+        type: "string"
+  Product:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      price:
+        type: "number"
+      image:
+        type: "string"
+      description:
+        type: "string"
+      quantuty:
+        type: "string"
+  detailProduct:
+    type: "object"
+    properties:
+      productId:
+        type: "number"
+      name:
+        type: "string"
+      price:
+        type: "number"
+      image:
+        type: "string"
+      description:
+        type: "string"
+      quantuty:
+        type: "string"
+  Sale:
+    type: "object"
+    properties:
+      productId:
+        type: "number"
+      userId:
+        type: "number"
+      date:
+        type: "string"
+  detailSale:
+    type: "object"
+    properties:
+      saleId:
+        type: "number"
+      productId:
+        type: "number"
+      userId:
+        type: "number"
